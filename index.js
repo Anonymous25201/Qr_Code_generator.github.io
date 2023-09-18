@@ -20,11 +20,18 @@ generateButton.addEventListener('click', async () => {
                 qrCodeImage.src = URL.createObjectURL(data);
                 qrCodeContainer.innerHTML = '';
                 qrCodeContainer.appendChild(qrCodeImage);
-
+                const whatsappShareLink = document.getElementById('whatsapp-share-link');
                 // Show download link
                 downloadLink.style.display = 'inline-block';
                 downloadLink.href = qrCodeImage.src;
                 downloadLink.download = 'qrcode.png';
+
+                    // Show WhatsApp share link
+                    whatsappShareLink.style.display = 'inline-block';
+                    whatsappShareLink.href = `whatsapp://send?text=${encodeURIComponent(
+                        textInput
+                    )}`;
+                
             } else {
                 throw new Error('Failed to generate QR code');
             }
