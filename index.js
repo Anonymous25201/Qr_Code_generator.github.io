@@ -7,7 +7,7 @@ const whatsappShareLink = document.getElementById('whatsapp-share-link'); // Add
 generateButton.addEventListener('click', async () => {
     const text = textInput.value;
     if (text.trim() !== '') {
-        const apiEndpoint = ` https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example${encodeURIComponent(
+        const apiEndpoint = `https://api.qr-code.io/v1/create?data=${encodeURIComponent(
             text
         )}&size=128x128`;
 
