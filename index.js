@@ -1,4 +1,4 @@
-<script>
+
         async function generateQRCode() {
             const textInput = document.getElementById('text-input').value;
             const qrCodeContainer = document.getElementById('qr-code-container');
@@ -38,4 +38,4 @@
         }
 
         document.getElementById('generate-button').addEventListener('click', generateQRCode);
-    </script>
+
