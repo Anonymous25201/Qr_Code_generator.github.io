@@ -1,42 +1,41 @@
-const generateButton = document.getElementById('generate-button');
-const textInput = document.getElementById('text-input');
-const qrCodeContainer = document.getElementById('qr-code-container');
-const downloadLink = document.getElementById('download-link');
+<script>
+        async function generateQRCode() {
+            const textInput = document.getElementById('text-input').value;
+            const qrCodeContainer = document.getElementById('qr-code-container');
+            const downloadLink = document.getElementById('download-link');
+            const whatsappShareLink = document.getElementById('whatsapp-share-link');
 
-generateButton.addEventListener('click', async () => {
-    const text = textInput.value;
-    if (text.trim() !== '') {
-        const apiEndpoint = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
-            text
-        )}`;
+            if (textInput.trim() !== '') {
+                const apiUrl = ` https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example${encodeURIComponent(
+                    textInput
+                )}`;
 
-        try {
-            const response = await fetch(apiEndpoint);
-            if (response.ok) {
-                const data = await response.blob();
+                try {
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const qrCodeImageUrl = await response.json();
 
-                // Display QR code image
-                const qrCodeImage = document.createElement('img');
-                qrCodeImage.src = URL.createObjectURL(data);
-                qrCodeContainer.innerHTML = '';
-                qrCodeContainer.appendChild(qrCodeImage);
-                const whatsappShareLink = document.getElementById('whatsapp-share-link');
-                // Show download link
-                downloadLink.style.display = 'inline-block';
-                downloadLink.href = qrCodeImage.src;
-                downloadLink.download = 'qrcode.png';
+                        // Display QR code image
+                        qrCodeContainer.innerHTML = `<img src="${qrCodeImageUrl}" alt="QR Code">`;
 
-                    // Show WhatsApp share link
-                    whatsappShareLink.style.display = 'inline-block';
-                    whatsappShareLink.href = `whatsapp://send?text=${encodeURIComponent(
-                        textInput
-                    )}`;
-                
-            } else {
-                throw new Error('Failed to generate QR code');
+                        // Show download link
+                        downloadLink.style.display = 'inline-block';
+                        downloadLink.href = qrCodeImageUrl;
+                        downloadLink.download = 'qrcode.png';
+
+                        // Show WhatsApp share link
+                        whatsappShareLink.style.display = 'inline-block';
+                        whatsappShareLink.href = `whatsapp://send?text=Check out this QR Code&image=${encodeURIComponent(
+                            qrCodeImageUrl
+                        )}`;
+                    } else {
+                        throw new Error('Failed to generate QR code');
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
             }
-        } catch (error) {
-            console.error(error);
         }
-    }
-});
+
+        document.getElementById('generate-button').addEventListener('click', generateQRCode);
+    </script>
