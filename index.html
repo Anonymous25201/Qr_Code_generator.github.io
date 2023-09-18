@@ -25,9 +25,9 @@
             const whatsappShareLink = document.getElementById('whatsapp-share-link');
 
             if (textInput.trim() !== '') {
-                const apiUrl = `https://api.qr-code.io/v1/create?data=${encodeURIComponent(
+                const apiUrl = ` https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Example${encodeURIComponent(
                     textInput
-                )}&size=128x128`;
+                )}`;
 
                 try {
                     const response = await fetch(apiUrl);
