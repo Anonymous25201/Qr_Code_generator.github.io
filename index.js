@@ -28,7 +28,7 @@ generateButton.addEventListener('click', async () => {
 
                     // Show WhatsApp share link
                     whatsappShareLink.style.display = 'inline-block';
-                    whatsappShareLink.href = `whatsapp://send?text=${encodeURIComponent(
+                    whatsappShareLink.href = `whatsapp://send?text=Check out this QR Code&image=${encodeURIComponent(
                         textInput
                     )}`;
                 
