@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
-    <link rel="stylesheet" href="./style.css">
-    
-    
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>QR Code Generator</h1>
@@ -19,6 +17,46 @@
     </div>
     <a id="download-link" style="display: none;">Download QR Code</a>
     <a id="whatsapp-share-link" style="display: none;">Share on WhatsApp</a>
-    <script src="index.js"></script>
+    <script>
+        async function generateQRCode() {
+            const textInput = document.getElementById('text-input').value;
+            const qrCodeContainer = document.getElementById('qr-code-container');
+            const downloadLink = document.getElementById('download-link');
+            const whatsappShareLink = document.getElementById('whatsapp-share-link');
+
+            if (textInput.trim() !== '') {
+                const apiUrl = `https://api.qr-code.io/v1/create?data=${encodeURIComponent(
+                    textInput
+                )}&size=128x128`;
+
+                try {
+                    const response = await fetch(apiUrl);
+                    if (response.ok) {
+                        const qrCodeImageUrl = await response.json();
+
+                        // Display QR code image
+                        qrCodeContainer.innerHTML = `<img src="${qrCodeImageUrl}" alt="QR Code">`;
+
+                        // Show download link
+                        downloadLink.style.display = 'inline-block';
+                        downloadLink.href = qrCodeImageUrl;
+                        downloadLink.download = 'qrcode.png';
+
+                        // Show WhatsApp share link
+                        whatsappShareLink.style.display = 'inline-block';
+                        whatsappShareLink.href = `whatsapp://send?text=Check out this QR Code&image=${encodeURIComponent(
+                            qrCodeImageUrl
+                        )}`;
+                    } else {
+                        throw new Error('Failed to generate QR code');
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+
+        document.getElementById('generate-button').addEventListener('click', generateQRCode);
+    </script>
 </body>
 </html>
